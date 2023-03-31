@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<div class="nb-article">There are
+		{{ articles|length }}
+		articles
+	</div>
+	<div class="container-article">
+		{% for article in articles %}
+			<div class="article-single">
+				{{article.titre}}
+				<div class="article-link">
+					<a href="{{ path('showAction', { id: article.id })}}">Voir l'article</a>
+					{% if is_granted('ROLE_ADMIN') %}
+						<a href="{{ path('editAction', { id: article.id })}}">Modifier l'article</a>
+						<a href="{{ path('deleteAction', { id: article.id })}}">Supprimer l'article</a>
+					</div>
+				{% endif %}
+			</div>
+		{% endfor %}
+		<div class="paginator">
+			{% if previous >= 0 %}
+				<a href="{{ path('homepage', { offset: previous }) }}">Previous</a>
+			{% endif %}
+			{% if next < articles|length %}
+				<a href="{{ path('homepage', { offset: next }) }}">Next</a>
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}

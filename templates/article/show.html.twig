@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Article Blog -
+	{{ article }}
+{% endblock %}
+
+
+{% block body %}
+
+	<div>There are
+		{{ comments|length }}
+		comments.</div>
+
+
+	<p>Titre :</p>
+	{{article.titre}}
+	<p>Contenu :</p>
+	{{article.contenu}}
+	<p>Date de publication :</p>
+	<p>
+		{{article.datePublication | format_datetime('medium', 'short')}}
+	</p>
+	<p>
+		Commentaires:
+		{% for comment in comments %}
+			<br>
+
+			{{comment.auteur}}
+			-
+			{{comment.text}}
+			<br>
+		{% endfor %}
+		{% if previous >= 0 %}
+			<a href="{{ path('showAction', { id: article.id, offset: previous }) }}">Previous</a>
+		{% endif %}
+		{% if next < comments|length %}
+			<a href="{{ path('showAction', { id: article.id, offset: next }) }}">Next</a>
+		{% endif %}
+
+	</p>
+	<div>
+		{{form(comment_form)}}
+		</div>
+	{% endblock %}
